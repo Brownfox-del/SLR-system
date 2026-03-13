@@ -1,8 +1,8 @@
 <template>
-  <!-- 根容器：隐藏滚动条 + 保留滚动功能，上传区无任何改动 -->
+  <!-- 根容器：隐藏滚动条 + 核心滚动容器（唯一滚动入口，避免多层滚动冲突） -->
   <div class="scroll-hide-container">
-    <section id="about" style="height: auto; min-height: 100%; padding: 50px 20px; overflow-y: auto;">
-      <div class="section-wrap" style="height: auto; min-height: 100%; width: 100%; max-width: 1200px; margin: 0 auto; padding: 40px 20px; overflow-y: auto;">
+    <section id="about" style="height: auto; min-height: 100vh; padding: 50px 20px;">
+      <div class="section-wrap" style="height: auto; min-height: 100%; width: 100%; max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
         <h3 class="section-title"><span>开始</span>识别</h3>
         
         <p class="p1" style="margin-bottom: 30px; line-height: 1.8; font-size: 1rem;">
@@ -30,10 +30,10 @@
           </button>
         </div>
 
-        <!-- 核心功能区：上传区无任何改动 -->
-        <div class="recognition-content" style="margin: 20px 0; width: 100%; overflow-y: auto;">
+        <!-- 核心功能区：移除多余overflow，仅保留根容器滚动 -->
+        <div class="recognition-content" style="margin: 20px 0; width: 100%;">
           <!-- 上传视频区域：完全保留原有样式，未做任何修改 -->
-          <div v-if="mode === 'upload'" class="upload-section" style="text-align: center; margin-bottom: 40px; width: 100%; overflow-y: auto;">
+          <div v-if="mode === 'upload'" class="upload-section" style="text-align: center; margin-bottom: 40px; width: 100%;">
             <div style="width: 100%; max-width: 500px; margin: 0 auto;">
               <el-upload
                 drag
@@ -60,7 +60,7 @@
           </div>
 
           <!-- 摄像头录制区域 -->
-          <div v-if="mode === 'camera'" class="camera-section" style="text-align: center; margin-bottom: 40px; width: 100%; overflow-y: auto;">
+          <div v-if="mode === 'camera'" class="camera-section" style="text-align: center; margin-bottom: 40px; width: 100%;">
             <video ref="cameraVideo" autoplay style="width: 100%; max-width: 500px; max-height: 300px; border-radius: 15px; margin: 0 auto 20px;"></video>
             
             <div class="camera-btn-group" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
@@ -229,15 +229,16 @@ const stopRecording = () => {
 </script>
 
 <style scoped>
-/* 核心：隐藏全局滚动条 + 保留滚动功能，兼容所有浏览器 */
+/* 核心：根容器作为唯一滚动入口，隐藏滚动条 + 保留滚动功能（兼容全浏览器） */
 .scroll-hide-container {
-  min-height: 100vh;
-  overflow-y: auto;
-  /* 谷歌/Edge/火狐 隐藏滚动条 */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  min-height: 100vh; /* 最小高度占满屏幕，内容多则自动扩展 */
+  height: auto;      /* 高度自适应内容 */
+  overflow-y: auto;  /* 仅根容器开启垂直滚动，避免多层滚动冲突 */
+  /* 隐藏滚动条 */
+  -ms-overflow-style: none;    /* IE/Edge */
+  scrollbar-width: none;       /* Firefox */
 }
-/* 谷歌/Chrome 单独隐藏滚动条 */
+/* Chrome/Safari 隐藏滚动条 */
 .scroll-hide-container::-webkit-scrollbar {
   display: none;
 }
@@ -248,7 +249,7 @@ const stopRecording = () => {
   box-shadow: 0 0 30px #FFE4B5;
 }
 
-/* 上传区域：完全保留原有样式，未做任何改动 */
+/* 上传区域：完全保留原有样式，无任何改动 */
 .upload-area {
   border: 1px dashed rgba(255, 255, 255, 0.3);
   border-radius: 15px;
@@ -262,7 +263,7 @@ const stopRecording = () => {
   --el-progress-bar-fill-color: #FFE4B5;
 }
 
-/* 响应式适配 */
+/* 响应式适配：优化小屏滚动体验 */
 @media (max-width: 768px) {
   .function-btn-group {
     flex-direction: column;
@@ -276,7 +277,7 @@ const stopRecording = () => {
     align-items: center;
   }
   
-  .upload-area, .camera-preview, .video-preview video {
+  .upload-area, .video-preview video {
     max-width: 100%;
   }
 
