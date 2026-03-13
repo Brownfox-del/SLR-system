@@ -1,32 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../components/Hero.vue' // 首页（原Hero）
-import About from '../components/About.vue' // About页
-import Project from '../components/Project.vue' // 项目页
-import Contact from '../components/Contact.vue' // 联系页
-import Footer from '../components/Footer.vue' // 页脚（全局）
-import RecognitionPage from '../components/RecognitionPage.vue' // 新增的识别页面
+import Home from '../components/Hero.vue'
+import RecognitionPage from '../components/RecognitionPage.vue'
+import ResultPage from '../components/ResultPage.vue' // 新增
 
-// 路由规则
 const routes = [
   {
     path: '/',
     name: 'Home',
-    components: {
-      default: Home,
-      About,
-      Project,
-      Contact,
-      Footer
-    }
+    component: Home
   },
   {
     path: '/recognition',
     name: 'RecognitionPage',
     component: RecognitionPage
+  },
+  {
+    path: '/result', // 新增结果页路由
+    name: 'ResultPage',
+    component: ResultPage
   }
 ]
 
-// 创建路由实例
 const router = createRouter({
   history: createWebHistory(),
   routes
