@@ -5,19 +5,19 @@
       <div class="project-grid">
         <div class="card crd-1">
           <img src="@/assets/images/p1.jpg">
-          <h4 class="card-title">实时识别</h4>
+          <h4 class="card-title">Vue3 前端框架</h4>
         </div>
         <div class="card crd-2">
           <img src="@/assets/images/p2.jpg">
-          <h4 class="card-title">多场景适配</h4>
+          <h4 class="card-title">Python 深度学习模型</h4>
         </div>
         <div class="card crd-3">
           <img src="@/assets/images/p3.jpeg">
-          <h4 class="card-title">高识别准确率</h4>
+          <h4 class="card-title">OpenCV 视频处理</h4>
         </div>
         <div class="card crd-4">
           <img src="@/assets/images/p4.jpg">
-          <h4 class="card-title">跨平台支持</h4>
+          <h4 class="card-title">PyTorch / TensorFlow</h4>
         </div>
       </div>
       <button class="section-btn">查看全部功能</button>
